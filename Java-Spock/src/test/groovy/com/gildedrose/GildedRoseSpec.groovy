@@ -7,7 +7,9 @@ import spock.lang.Specification
  */
 class GildedRoseSpec extends Specification {
 
-    def "should update quality correctly"() {
+    /* STANDARD ITEMS */
+
+    def "should preserve item name"() {
         given: "some items"
         Item[] items = [new Item("foo", 0, 0)];
 
