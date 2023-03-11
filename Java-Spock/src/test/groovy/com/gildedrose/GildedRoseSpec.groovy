@@ -23,6 +23,20 @@ class GildedRoseSpec extends Specification {
         app.items[0].name == "foo"
     }
 
+    def "decrease item quality by 1 up to sell-by date for standard items"() {
+        given: "a standard item in inventory"
+        Item standardItem = new Item("nothing special", 100, 20)
+        GildedRose app = new GildedRose([
+            standardItem
+        ] as Item[])
+
+        when: "updating quality"
+        app.updateQuality()
+
+        then: "quality reduced by 1"
+        standardItem.quality == 19
+    }
+
 //- All items have a SellIn value which denotes the number of days we have to sell the item
 //- All items have a Quality value which denotes how valuable the item is
 //- At the end of each day, our system lowers both values for every item
