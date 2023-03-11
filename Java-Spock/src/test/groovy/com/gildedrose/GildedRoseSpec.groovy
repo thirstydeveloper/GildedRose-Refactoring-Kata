@@ -37,6 +37,20 @@ class GildedRoseSpec extends Specification {
         standardItem.quality == 19
     }
 
+    def "item quality never decreases past zero"() {
+        given: "a zero-quality item"
+        Item zeroQuality = new Item("nothing special", 100, 0)
+        GildedRose app = new GildedRose([
+            zeroQuality
+        ] as Item[])
+
+        when: "updating quality"
+        app.updateQuality()
+
+        then: "quality reduced by 1"
+        zeroQuality.quality == 0
+    }
+
 //- All items have a SellIn value which denotes the number of days we have to sell the item
 //- All items have a Quality value which denotes how valuable the item is
 //- At the end of each day, our system lowers both values for every item
