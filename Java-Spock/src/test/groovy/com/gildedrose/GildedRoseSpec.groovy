@@ -10,45 +10,55 @@ class GildedRoseSpec extends Specification {
     /* STANDARD ITEMS */
 
     def "should preserve item name"() {
-        given: "an item"
-        Item[] items = [new Item("foo", 0, 0)];
-
-        and: "the application with these items"
-        GildedRose app = new GildedRose(items);
+        given: "the application any item"
+        GildedRose app = inventory(
+            anItem(name: 'something', quality: 100, sellIn: 20)
+        )
 
         when: "updating quality"
         app.updateQuality();
 
         then: "the name is correct"
-        app.items[0].name == "foo"
+        app.items[0].name == 'something'
     }
 
     def "decrease item quality by 1 up to sell-by date for standard items"() {
         given: "a standard item in inventory"
-        Item standardItem = new Item("nothing special", 100, 20)
-        GildedRose app = new GildedRose([
-            standardItem
-        ] as Item[])
+        Item standardItem = anItem(quality: 100, sellIn: 20)
+        GildedRose app = inventory(standardItem)
 
         when: "updating quality"
         app.updateQuality()
 
         then: "quality reduced by 1"
-        standardItem.quality == 19
+        standardItem.quality == 99
     }
 
     def "item quality never decreases past zero"() {
         given: "a zero-quality item"
-        Item zeroQuality = new Item("nothing special", 100, 0)
-        GildedRose app = new GildedRose([
-            zeroQuality
-        ] as Item[])
+        Item zeroQuality = anItem(quality: 0, sellIn: 20)
+        GildedRose app = inventory(zeroQuality)
 
         when: "updating quality"
         app.updateQuality()
 
         then: "quality reduced by 1"
         zeroQuality.quality == 0
+    }
+
+    static GildedRose inventory(Item... items) {
+        new GildedRose(items)
+    }
+
+    static Item anItem(Map args) {
+        String name = args.get('name', 'nothing special')
+        int quality = args.get('quality')
+        int sellIn = args.get('sellIn')
+
+        assert quality != null : "missing quality for item"
+        assert sellIn != null : "missing sellIn for item"
+
+        new Item(name, sellIn, quality)
     }
 
 //- All items have a SellIn value which denotes the number of days we have to sell the item
