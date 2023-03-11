@@ -19,10 +19,10 @@ class GildedRoseSpec extends Specification {
         app.updateQuality();
 
         then: "the name is correct"
-        app.items[0].name == 'something'
+        onlyItemIn(app).name == 'something'
     }
 
-    def "decrease item quality by 1 up to sell-by date for standard items"() {
+    def "decrease item quality and sellIn by 1 up to sell-by date for standard items"() {
         given: "a standard item in inventory"
         Item standardItem = anItem(quality: 100, sellIn: 20)
         GildedRose app = inventory(standardItem)
@@ -32,6 +32,7 @@ class GildedRoseSpec extends Specification {
 
         then: "quality reduced by 1"
         standardItem.quality == 99
+        standardItem.sellIn == 19
     }
 
     def "item quality never decreases past zero"() {
@@ -44,6 +45,18 @@ class GildedRoseSpec extends Specification {
 
         then: "quality reduced by 1"
         zeroQuality.quality == 0
+    }
+
+    def "item sellIn can go negative"() {
+        given: "an item that expires tomorrow"
+        Item expiredItem = anItem(quality: 100, sellIn: 0)
+        GildedRose app = inventory(expiredItem)
+
+        when: "updating quality"
+        app.updateQuality()
+
+        then: "sellIn reduced to -1"
+        expiredItem.sellIn == -1
     }
 
     static GildedRose inventory(Item... items) {
@@ -59,6 +72,12 @@ class GildedRoseSpec extends Specification {
         assert sellIn != null : "missing sellIn for item"
 
         new Item(name, sellIn, quality)
+    }
+
+    static Item onlyItemIn(GildedRose inventory) {
+        assert inventory.items.size() == 1
+
+        inventory.items[0]
     }
 
 //- All items have a SellIn value which denotes the number of days we have to sell the item
