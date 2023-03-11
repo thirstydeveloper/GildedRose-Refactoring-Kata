@@ -10,7 +10,7 @@ class GildedRoseSpec extends Specification {
     /* STANDARD ITEMS */
 
     def "should preserve item name"() {
-        given: "some items"
+        given: "an item"
         Item[] items = [new Item("foo", 0, 0)];
 
         and: "the application with these items"
@@ -19,7 +19,7 @@ class GildedRoseSpec extends Specification {
         when: "updating quality"
         app.updateQuality();
 
-        then: "the quality is correct"
+        then: "the name is correct"
         app.items[0].name == "foo"
     }
 
