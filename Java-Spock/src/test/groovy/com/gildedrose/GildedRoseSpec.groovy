@@ -60,8 +60,16 @@ class GildedRoseSpec extends Specification {
         expiredItem.sellIn == -1
     }
 
-    @PendingFeature
     def "expired standard items degrade in quality twice as fast"() {
+        given: "an item that expires tomorrow"
+        Item expiredItem = anItem(quality: 50, sellIn: -1)
+        GildedRose app = inventory(expiredItem)
+
+        when: "updating quality"
+        app.updateQuality()
+
+        then: "quality reduces twice as fast"
+        expiredItem.quality == 48
     }
 
     @PendingFeature
