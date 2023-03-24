@@ -1,6 +1,7 @@
 package com.gildedrose
 
 import spock.lang.Specification
+import spock.lang.PendingFeature
 
 /**
  * Spock unit tests.
@@ -35,7 +36,7 @@ class GildedRoseSpec extends Specification {
         standardItem.sellIn == 19
     }
 
-    def "item quality never decreases past zero"() {
+    def "item quality never goes negative"() {
         given: "a zero-quality item"
         Item zeroQuality = anItem(quality: 0, sellIn: 20)
         GildedRose app = inventory(zeroQuality)
@@ -58,6 +59,13 @@ class GildedRoseSpec extends Specification {
         then: "sellIn reduced to -1"
         expiredItem.sellIn == -1
     }
+
+    @PendingFeature
+    def "expired items degrade in quality twice as fast"() {
+    }
+
+    @PendingFeature
+    def 
 
     static GildedRose inventory(Item... items) {
         new GildedRose(items)
