@@ -65,7 +65,20 @@ class GildedRoseSpec extends Specification {
     }
 
     @PendingFeature
-    def 
+    def "aged brie increases in quality as it gets older"() {
+    }
+
+    @PendingFeature
+    def "item quality never exceeds 50"() {
+    }
+
+    @PendingFeature
+    def "legendary items never decrease in quality"() {
+    }
+
+    @PendingFeature
+    def "legendary items never need to be sold"() {
+    }
 
     static GildedRose inventory(Item... items) {
         new GildedRose(items)
