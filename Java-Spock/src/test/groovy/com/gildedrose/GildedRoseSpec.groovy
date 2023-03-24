@@ -61,11 +61,15 @@ class GildedRoseSpec extends Specification {
     }
 
     @PendingFeature
-    def "expired items degrade in quality twice as fast"() {
+    def "expired standard items degrade in quality twice as fast"() {
     }
 
     @PendingFeature
-    def "aged brie increases in quality as it gets older"() {
+    def "non-legendary items has a maximum quality of 50"() {
+    }
+
+    @PendingFeature
+    def "aged items increase in quality as they gets older"() {
     }
 
     @PendingFeature
@@ -77,7 +81,31 @@ class GildedRoseSpec extends Specification {
     }
 
     @PendingFeature
+    def "legendary items has a quality of 80"() {
+    }
+
+    @PendingFeature
     def "legendary items never need to be sold"() {
+    }
+
+    @PendingFeature
+    def "event items increase in quality up to 11 days out"() {
+    }
+
+    @PendingFeature
+    def "event items increase in quality twice as fast between 6 and 10 days out"() {
+    }
+
+    @PendingFeature
+    def "event items increase in quality three-times as fast 5 days out through event day"() {
+    }
+
+    @PendingFeature
+    def "event items have a quality of 0 after the event"() {
+    }
+
+    @PendingFeature
+    def "conjured items degrade in quality twice as fast"() {
     }
 
     static GildedRose inventory(Item... items) {
