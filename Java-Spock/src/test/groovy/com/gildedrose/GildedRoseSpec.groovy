@@ -72,12 +72,26 @@ class GildedRoseSpec extends Specification {
         expiredItem.quality == 48
     }
 
-    @PendingFeature
-    def "non-legendary items has a maximum quality of 50"() {
+    def "aged items increase in quality as they get older"(int sellIn, int expectedQualityIncrease) {
+        given: "an aged item"
+        int initialQuality = 20
+        Item expiredItem = anItem(name: "Aged Brie", quality: initialQuality, sellIn: sellIn)
+        GildedRose app = inventory(expiredItem)
+
+        when: "updating quality"
+        app.updateQuality()
+
+        then: "quality reduces twice as fast"
+        expiredItem.quality == initialQuality + expectedQualityIncrease
+
+        where:
+        sellIn || expectedQualityIncrease
+        20     || 1
+        -1     || 2
     }
 
     @PendingFeature
-    def "aged items increase in quality as they gets older"() {
+    def "non-legendary items has a maximum quality of 50"() {
     }
 
     @PendingFeature
